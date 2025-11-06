@@ -1,22 +1,38 @@
-<template>
-  <audio v-if="auto" autoplay="autoplay" src="../music/DJ阿轩 - 半点心.mp3" ></audio>
-  <input type="text" placeholder="Where is this?"></input>
-<button @click="play">我确定</button>
-  <h1>{{ uinput }}</h1>
-</template>
-
 <script setup>
 import { ref } from 'vue'
-import { reactive } from 'vue'
-let auto = ref(false)
 
-function play() {
-  const uinput = document.querySelector('input').value
-  if (uinput === `canton` || uinput === `Canton` || uinput === `CANTON`) {
-  auto.value = !auto.value
-  }
+// 给每个 todo 对象一个唯一的 id
+let id = 0
+
+const newTodo = ref('')
+const todos = ref([
+  { id: id++, text: 'Learn HTML' },
+  { id: id++, text: 'Learn JavaScript' },
+  { id: id++, text: 'Learn Vue' },
+])
+
+function addTodo() {
+  todos.value.push({ id: id++, text: newTodo.value })
+  newTodo.value = ''
+}
+
+function removeTodo(tod) {
+  todos.value = todos.value.filter((t) => t !== tod)
 }
 </script>
+
+<template>
+  <form @submit.prevent="addTodo">
+    <input v-model="newTodo" required placeholder="new todo" />
+    <button>Add Todo</button>
+  </form>
+  <ul>
+    <li v-for="tod in todos" :key="tod.id">
+      {{ tod.text }}
+      <button @click="removeTodo(todo)">X</button>
+    </li>
+  </ul>
+</template>
 
 <style>
 html body {
@@ -26,5 +42,20 @@ html body {
   background-size: cover;
   background-repeat: no-repeat;
   background-attachment: fixed;
+}
+
+.cv-done {
+  width: 700px;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background-color: rgba(255, 255, 255, 0.655);
+  transition: all 0.3s ease-in-out;
+}
+
+.cv-done:hover {
+  transform: scale(1.1);
+  transition: all 0.3s ease-in-out;
 }
 </style>
