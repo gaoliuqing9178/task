@@ -1,5 +1,12 @@
 <script setup>
 import { ref } from 'vue'
+import { reactive } from 'vue'
+import personal from '../component/personal.vue'
+components: {
+  personal
+}
+
+const a = reactive({sadas: 4654})
 
 // 给每个 todo 对象一个唯一的 id
 let id = 0
@@ -18,7 +25,9 @@ function addTodo() {
 
 function removeTodo(tod) {
   todos.value = todos.value.filter((t) => t !== tod)
+  todos.value.splice(todos.value.indexOf(tod), 1)
 }
+ 
 </script>
 
 <template>
@@ -32,6 +41,7 @@ function removeTodo(tod) {
       <button @click="removeTodo(todo)">X</button>
     </li>
   </ul>
+  <personal />
 </template>
 
 <style>
@@ -42,20 +52,5 @@ html body {
   background-size: cover;
   background-repeat: no-repeat;
   background-attachment: fixed;
-}
-
-.cv-done {
-  width: 700px;
-  height: 100%;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  background-color: rgba(255, 255, 255, 0.655);
-  transition: all 0.3s ease-in-out;
-}
-
-.cv-done:hover {
-  transform: scale(1.1);
-  transition: all 0.3s ease-in-out;
 }
 </style>
