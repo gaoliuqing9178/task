@@ -1,0 +1,14 @@
+[Server]
+port = "8848"
+
+[sqlite]
+driver = "sqlite3"
+dataSourceName = "file:todo.db?mode=rwc&loc=Asia/Shanghai&charset=utf8mb4"
+
+[log]
+level = "debug"
+path = "log/todo.log"
+
+[jwt]
+secret = "epoch"
+expire = 86400 # 1 day in seconds

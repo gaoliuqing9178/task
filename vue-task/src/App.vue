@@ -1,47 +1,27 @@
 <script setup>
-import { ref } from 'vue'
-import { reactive } from 'vue'
+import { ref, watch } from 'vue'
 import personal from '../component/personal.vue'
-components: {
-  personal
-}
 
-const a = reactive({sadas: 4654})
+const sum = ref(0)
 
-// 给每个 todo 对象一个唯一的 id
-let id = 0
-
-const newTodo = ref('')
-const todos = ref([
-  { id: id++, text: 'Learn HTML' },
-  { id: id++, text: 'Learn JavaScript' },
-  { id: id++, text: 'Learn Vue' },
-])
-
-function addTodo() {
-  todos.value.push({ id: id++, text: newTodo.value })
-  newTodo.value = ''
-}
-
-function removeTodo(tod) {
-  todos.value = todos.value.filter((t) => t !== tod)
-  todos.value.splice(todos.value.indexOf(tod), 1)
-}
- 
+const stop = watch(sum, (newValue, oldValue) => {
+  console.log(`sum was changed`)
+  console.log(newValue, oldValue)
+  if (newValue > 10) {
+    stop()
+  }
+})
 </script>
 
 <template>
-  <form @submit.prevent="addTodo">
-    <input v-model="newTodo" required placeholder="new todo" />
-    <button>Add Todo</button>
-  </form>
-  <ul>
-    <li v-for="tod in todos" :key="tod.id">
-      {{ tod.text }}
-      <button @click="removeTodo(todo)">X</button>
-    </li>
-  </ul>
-  <personal />
+  <div class="case1">
+    <p>{{ sum }}</p>
+    <button @click="sum++">+</button>
+    <button @click="sum--">-</button>
+  </div>
+  <div class="case2">
+    <personal />
+  </div>
 </template>
 
 <style>
@@ -52,5 +32,12 @@ html body {
   background-size: cover;
   background-repeat: no-repeat;
   background-attachment: fixed;
+  margin: 40px;
+}
+
+.case1 {
+  padding: 5px;
+  border-style: solid;
+  border-radius: 10px;
 }
 </style>
