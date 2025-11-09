@@ -66,3 +66,8 @@
 2025-10-07T16:13:11.794+0800	info	/mnt/f/todolist/internal/middleware/Auth.go:49	用户已通过JWT认证, 用户ID: 1	{"application": "todolist"}
 2025-10-07T16:13:23.651+0800	info	/mnt/f/todolist/internal/middleware/Auth.go:49	用户已通过JWT认证, 用户ID: 1	{"application": "todolist"}
 2025-10-07T16:15:21.067+0800	info	/mnt/f/todolist/internal/middleware/Auth.go:49	用户已通过JWT认证, 用户ID: 1	{"application": "todolist"}
+2025-11-09T23:20:30.815+0800	info	H:/task/Easy-ToDoList-main/pkg/logUtil/Logger.go:92	Logger init success	{"application": "todolist"}
+2025-11-09T23:20:30.824+0800	error	H:/task/Easy-ToDoList-main/internal/database/Init.go:23	数据库连接失败	{"application": "todolist", "error": "Binary was compiled with 'CGO_ENABLED=0', go-sqlite3 requires cgo to work. This is a stub"}
+2025-11-09T23:37:48.584+0800	info	H:/task/Easy-ToDoList-main/pkg/logUtil/Logger.go:92	Logger init success	{"application": "todolist"}
+2025-11-09T23:37:48.595+0800	info	H:/task/Easy-ToDoList-main/cmd/v1/main.go:35	配置文件、日志、数据库初始化完成	{"application": "todolist"}
+2025-11-09T23:37:48.596+0800	info	H:/task/Easy-ToDoList-main/cmd/v1/main.go:56	服务启动于	{"application": "todolist", "port": "8848"}

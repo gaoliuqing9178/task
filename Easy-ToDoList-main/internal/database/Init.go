@@ -2,8 +2,8 @@ package database
 
 import (
 	"go.uber.org/zap"
-	"gorm.io/driver/sqlite"
-	"gorm.io/gorm"
+	"github.com/glebarez/sqlite"
+    "gorm.io/gorm"
 	"todolist/config"
 	"todolist/internal/model"
 	"todolist/pkg/logUtil"
@@ -18,7 +18,7 @@ var modelList = []interface{}{
 
 func Init() *gorm.DB {
 	sqliteConfig := config.Get().Sqlite
-	sqliteDB, err := gorm.Open(sqlite.New(sqlite.Config{DriverName: sqliteConfig.Driver, DSN: sqliteConfig.DataSourceName}))
+	sqliteDB, err := gorm.Open(sqlite.Open(sqliteConfig.DataSourceName), &gorm.Config{})
 	if err != nil {
 		logUtil.Logger.Error("数据库连接失败", zap.Error(err))
 	}
