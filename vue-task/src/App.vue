@@ -1,86 +1,52 @@
 <script setup>
+import { ref } from 'vue'
+const BaseURL = `http://localhost:8848/api/v1`
+const accountName = ref("")
+const accountPassword = ref("")
+const userName = ref("")
+let token = ref(``)
 
-import sign_register from '../component/sign_register.vue'
+//注册
+async function Register() {
+  const req = new Request(`${BaseURL}/user/register`, {
+    method: 'POST',
+    body: JSON.stringify({
+      "name": userName.value,
+      "account": accountName.value,
+      "password": accountPassword.value,
+    }),
+  })
+  const res = await fetch(req)
+  const data = await res.json()
+  alert(data.message)
+  userName.value = ` `
+  accountName.value = ` `
+  accountPassword.value = ` `
+}
 
-import { ref, reactive, watch } from 'vue'
-const accountn = ref(``)
-const accountp = ref(``)
-
-function closeWindow() {
-  const W = document.querySelector('.sign')
-  W.style.display = 'none'
+//登录
+async function Signin() {
+  const req = new Request(`${BaseURL}/user/signin`, {
+    method: 'POST',
+    body: JSON.stringify({
+      "account": accountName.value,
+      "password": accountPassword.value,
+    }),
+  })
+  const res = await fetch(req)
+  const data = await res.json()
+  token.value = data.token
+  console.log(token.value)
 }
 </script>
 
 <template>
-  <div class="sign">
-    <input class="username" id="ac" type="text" placeholder="Enter usename" v-model="accountn" />
-    <input
-      class="password"
-      id="ac"
-      type="password"
-      placeholder="Enter password"
-      v-model="accountp"
-    />
-    <div class="btnarea">
-      <button @click="closeWindow">Sign in</button>
-      <button @click="closeWindow">Register</button>
-    </div>
-  </div>
-  <div class="signWindow">
-  <sign_register/>
-  </div>
+  <p>Register</p>
+  <input type="text" v-model="accountName" placeholder="Enter name" />
+  <input type="password" v-model="accountPassword" placeholder="Enter password"/>
+  <input type="text" v-model="userName" placeholder="Enter user name"/>
+  <button @click="Register">Register</button>
+  <button @click="Signin">Signin</button>
 </template>
 
-<style>
-  html, body {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-  }
-  
-  .sign {
-  border-style: solid;
-  border-radius: 15px;
-  padding: 50px;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  margin: 20px;
-}
-
-#ac {
-  border-style: solid;
-  border-radius: 25px;
-  padding: 10px;
-  margin: 10px;
-}
-
-.btnarea {
-  width: 100%;
-  display: flex;
-  flex-direction: row;
-  justify-content: space-around;
-}
-
-button {
-  background-color: rgb(68, 171, 255);
-  border: none;
-  border-radius: 15px;
-  padding: 10px;
-  margin: 10px;
-  color: white;
-  font-size: 15px;
-  font-weight: 500;
-  transition: all 0.25s;
-}
-
-button:hover {
-  background-color: rgb(58, 151, 235);
-  transform: scale(1.1);
-}
-
-.sign {
-  display: none;
-}
-</style>
+<style scoped></style>
