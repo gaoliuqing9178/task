@@ -97,3 +97,15 @@
 2025-11-10T23:57:56.731+0800	info	H:/task/Easy-ToDoList-main/pkg/logUtil/Logger.go:92	Logger init success	{"application": "todolist"}
 2025-11-10T23:57:56.739+0800	info	H:/task/Easy-ToDoList-main/cmd/v1/main.go:35	配置文件、日志、数据库初始化完成	{"application": "todolist"}
 2025-11-10T23:57:56.740+0800	info	H:/task/Easy-ToDoList-main/cmd/v1/main.go:56	服务启动于	{"application": "todolist", "port": "8848"}
+2025-11-11T12:22:42.636+0800	info	H:/task/Easy-ToDoList-main/pkg/logUtil/Logger.go:92	Logger init success	{"application": "todolist"}
+2025-11-11T12:22:42.645+0800	info	H:/task/Easy-ToDoList-main/cmd/v1/main.go:35	配置文件、日志、数据库初始化完成	{"application": "todolist"}
+2025-11-11T12:22:42.646+0800	info	H:/task/Easy-ToDoList-main/cmd/v1/main.go:56	服务启动于	{"application": "todolist", "port": "8848"}
+2025-11-11T13:31:29.750+0800	info	H:/task/Easy-ToDoList-main/internal/middleware/Auth.go:45	无效的Token: %v	{"application": "todolist", "error": "token has invalid claims: token is expired"}
+2025-11-11T17:30:34.077+0800	info	H:/task/Easy-ToDoList-main/pkg/logUtil/Logger.go:92	Logger init success	{"application": "todolist"}
+2025-11-11T17:30:34.085+0800	info	H:/task/Easy-ToDoList-main/cmd/v1/main.go:35	配置文件、日志、数据库初始化完成	{"application": "todolist"}
+2025-11-11T17:30:34.085+0800	info	H:/task/Easy-ToDoList-main/cmd/v1/main.go:56	服务启动于	{"application": "todolist", "port": "8848"}
+2025-11-11T17:37:23.347+0800	info	H:/task/Easy-ToDoList-main/internal/middleware/Auth.go:49	用户已通过JWT认证, 用户ID: 11	{"application": "todolist"}
+2025-11-11T17:38:30.569+0800	info	H:/task/Easy-ToDoList-main/internal/middleware/Auth.go:49	用户已通过JWT认证, 用户ID: 11	{"application": "todolist"}
+2025-11-11T17:38:30.573+0800	info	H:/task/Easy-ToDoList-main/internal/middleware/Auth.go:49	用户已通过JWT认证, 用户ID: 11	{"application": "todolist"}
+2025-11-11T17:43:24.402+0800	info	H:/task/Easy-ToDoList-main/internal/middleware/Auth.go:49	用户已通过JWT认证, 用户ID: 11	{"application": "todolist"}
+2025-11-11T17:43:24.411+0800	info	H:/task/Easy-ToDoList-main/internal/middleware/Auth.go:49	用户已通过JWT认证, 用户ID: 11	{"application": "todolist"}
