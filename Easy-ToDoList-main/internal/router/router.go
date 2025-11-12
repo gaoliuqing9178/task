@@ -29,7 +29,7 @@ func SetupRouter(engine *gin.Engine, userHandler *handler.UserHandler, toDoHandl
 			authed.GET("/todos/list", toDoHandler.ListByUser)
 			authed.POST("/todos/add", toDoHandler.Create)
 			authed.GET("/todos/get/:id", toDoHandler.GetByID)
-			authed.PUT("/todos/update:id", toDoHandler.UpdateByID)
+			authed.PUT("/todos/update/:id", toDoHandler.UpdateByID)
 			authed.DELETE("/todos/delete/:id", toDoHandler.Delete)
 
 			// User profile update
