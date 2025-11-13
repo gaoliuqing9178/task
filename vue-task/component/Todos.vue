@@ -1,8 +1,10 @@
 <script setup>
 import { ref } from 'vue'
 import { onMounted } from 'vue'
+import { useRouter } from 'vue-router'
 
 const BaseURL = `/api/v1`
+const router = useRouter()
 
 const userName = ref('')
 const newUserName = ref('')
@@ -30,10 +32,13 @@ onMounted(() => {
   if (savedToken) {
     token.value = savedToken
     userName.value = savedUserName
+  } else {
+    router.push('/')
   }
   //获取待办事项列表
   fetchToDoList()
 })
+
 //更改用户信息
 
 function changeWindow() {
@@ -56,6 +61,13 @@ async function changeUser() {
   const data = await res.json()
   alert(`${data.message}`)
   isChange.value = !isChange.value
+}
+
+//退出登录
+function signout() {
+  localStorage.removeItem('userName')
+  localStorage.removeItem('userToken')
+  router.push('/')
 }
 
 //获取待办事项
@@ -193,65 +205,68 @@ async function updateToDoList() {
     <div class="LIST">
     <!---用户信息-->
     <div class="user">
-      <h1>Welcome {{ userName }}</h1>
-      <button @click="changeWindow">Change user data</button>
+      <h1>欢迎 {{ userName }}</h1>
+      <div class="user">
+        <button @click="signout">退出登录</button>
+        <button @click="changeWindow">更改用户信息</button>
+      </div>
       <!--更改用户信息-->
       <div class="changeData" v-if="isChange">
         <input
           type="text"
           v-model="newUserName"
-          placeholder="Enter the username"
+          placeholder="输入用户名"
         />
-        <input type="password" v-model="newUserPassword" placeholder="Enter new password" />
-        <p class="tips">you can't change your account name</p>
-        <button @click="changeUser">change</button>
-        <button @click="changeWindow">cancel</button>
+        <input type="password" v-model="newUserPassword" placeholder="输入新密码" />
+        <p class="tips">更改密码</p>
+        <button @click="changeUser">确认</button>
+        <button @click="changeWindow">取消</button>
       </div>
     </div>
     <!---创建待办事项-->
     <div class="creatToDo">
-      <h3>Create todo</h3>
-      <input type="text" v-model="todoTitle" placeholder="Enter title" />
-      <input type="text" v-model="todoDescription" placeholder="Enter description" />
+      <h3>创建待办事项</h3>
+      <input type="text" v-model="todoTitle" placeholder="输入标题" />
+      <input type="text" v-model="todoDescription" placeholder="输入ID" />
       <input type="datetime-local" v-model="todoEndTime" />
-      <button @click="createToDo">Add todo</button>
+      <button @click="createToDo">添加待办事项</button>
     </div>
     <!---通过ID查询待办事项-->
     <div class="queryToDo">
-      <h3>Query todo by id</h3>
-      <input type="text" v-model="todoID" placeholder="Enter id" />
-      <button @click="queryToDo">Query</button>
+      <h3>通过ID查询待办事项</h3>
+      <input type="text" v-model="todoID" placeholder="输入ID" />
+      <button @click="queryToDo">查询</button>
     </div>
     <div class="Todos" v-if="isQuery">
-      <p>Title: {{ queryResult.title }}</p>
-      <p>Description: {{ queryResult.description }}</p>
-      <p>Deadline: {{ queryResult.end_time }}</p>
+      <p>标题： {{ queryResult.title }}</p>
+      <p>描述： {{ queryResult.description }}</p>
+      <p>截止日期: {{ queryResult.end_time }}</p>
     </div>
     <!---通过ID更新指定待办事项-->
-    <h3>Change todo by id</h3>
+    <h3>通过ID更改指定待办事项</h3>
     <div class="updateTodo" v-if="isUpdate">
-      <input type="text" placeholder="Enter id" v-model="Id">
-      <input type="text" placeholder="Enter new title" v-model="newTitle" />
-      <input type="text" placeholder="Enter new description" v-model="newDescription" />
+      <input type="text" placeholder="输入ID" v-model="Id">
+      <input type="text" placeholder="输入新的标题" v-model="newTitle" />
+      <input type="text" placeholder="输入新的描述" v-model="newDescription" />
       <input type="datetime-local" v-model="newEndTime" />
-      <button @click="updateToDoList()">Update</button>
-      <button @click="Toupdate">Cancel</button>
+      <button @click="updateToDoList()">确认</button>
+      <button @click="Toupdate">取消</button>
     </div>
-    <button class="updateWindow" v-if="!isUpdate" @click="Toupdate">Update</button>
+    <button class="updateWindow" v-if="!isUpdate" @click="Toupdate">更改</button>
 <!------------------------------------------------------------------------------------------------------------------------------------------->
     <hr>
     <!---待办事项列表-->
     <div class="ToDoList">
-      <h3>Todo List</h3>
+      <h3>待办事项列表</h3>
       <div v-if="source.length === 0">
-        <p>No Todos</p>
+        <p>暂无待办事项</p>
       </div>
       <div id="ToDoList" v-for="item in source" :key="item.id" class="Todos">
-        <p>Title: {{ item.title }}</p>
-        <p>Description: {{ item.description }}</p>
-        <time>Deadline: {{ item.end_time }}</time>
+        <p>标题: {{ item.title }}</p>
+        <p>描述: {{ item.description }}</p>
+        <time>截止日期: {{ item.end_time }}</time>
         <p>ID: {{ item.id }}</p>
-        <button @click="deleteToDoList(item)" :id="item.id">Delete</button>
+        <button @click="deleteToDoList(item)" :id="item.id">删除</button>
       </div>
     </div>
   </div>
@@ -337,9 +352,13 @@ hr {
   flex-wrap: wrap;
 }
 
+.Todos button {
+  background-color: brown;
+}
+
 @media (max-width: 500px) {
     .creatToDo button, .queryToDo button, .Todos button, .updateTodo button, .updateWindow, .changeData button{
-        width: 70%;
+        width: 50%;
     }
     
     .Todos {

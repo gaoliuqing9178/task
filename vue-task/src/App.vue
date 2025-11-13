@@ -2,6 +2,7 @@
 import { ref } from 'vue'
 import { RouterView } from 'vue-router'
 import { useRouter } from 'vue-router'
+import { onMounted } from 'vue'
 
 const BaseURL = `/api/v1`
 const router = useRouter()
@@ -14,7 +15,6 @@ const isRegister = ref(false)
 const isSignin = ref(true)
 const isUser = ref(false)
 
-let token = ref(``)
 
 //注册
 async function Register() {
@@ -43,9 +43,9 @@ async function Register() {
     alert(data.message)
     console.log(res)
     //清空输入
-    userName.value = ` `
-    accountName.value = ` `
-    accountPassword.value = ` `
+    userName.value = ``
+    accountName.value = ``
+    accountPassword.value = ``
   } catch (error) {
     alert(`Username already exists`)
     console.log(error)
@@ -71,7 +71,6 @@ async function Signin() {
 
     //获取token&userName
     userName.value = data.user.name
-    token.value = data.token
     localStorage.setItem('userToken', data.token)
     localStorage.setItem('userName', data.user.name)
 
@@ -87,30 +86,41 @@ async function Signin() {
 }
 function RegisterWindow() {
   isRegister.value = !isRegister.value
+  isSignin.value = !isSignin.value
 }
+
+//若本地存在token则自动登录
+onMounted(() => {
+  const savedToken = localStorage.getItem('userToken')
+  if (savedToken) {
+    isUser.value = !isUser.value
+    router.push('/Todos')
+  }
+})
+
 </script>
 <!------------------------------------------------------------------------------------------------------>
 <template>
-  <div class="Sign&register" v-if="isSignin">
-    <!---注册和登录页面-->
-    <!---登录-->
-    <div class="sign" v-if="!isRegister">
-      <h3>Sign in</h3>
-      <input class="ac" type="text" v-model="accountName" placeholder="Enter account name" />
-      <input class="ac" type="password" v-model="accountPassword" placeholder="Enter password" />
-      <button class="acbtn" @click="Signin">Sign in</button>
-      <button class="acbtn" @click="RegisterWindow">Register</button>
+    <div class="Sign&register" v-if="!isUser">
+      <!---注册和登录页面-->
+      <!---登录-->
+      <div class="sign" v-if="isSignin">
+        <h3>登录</h3>
+        <input class="ac" type="text" v-model="accountName" placeholder="输入账户名称" />
+        <input class="ac" type="password" v-model="accountPassword" placeholder="输入密码" />
+        <button class="acbtn" @click="Signin">登录</button>
+        <button class="acbtn" @click="RegisterWindow">注册</button>
+      </div>
+      <!---注册-->
+      <div class="register" v-if="isRegister">
+        <h3>注册</h3>
+        <input class="ac" type="text" v-model="accountName" placeholder="输入账户名称" />
+        <input class="ac" type="password" v-model="accountPassword" placeholder="输入密码" />
+        <input class="ac" type="text" v-model="userName" placeholder="输入用户名称" />
+        <button class="acbtn" @click="Register">注册</button>
+        <button class="acbtn" @click="RegisterWindow">返回登陆</button>
+      </div>
     </div>
-    <!---注册-->
-    <div class="register" v-if="isRegister">
-      <h3>Register</h3>
-      <input class="ac" type="text" v-model="accountName" placeholder="Enter account name" />
-      <input class="ac" type="password" v-model="accountPassword" placeholder="Enter password" />
-      <input class="ac" type="text" v-model="userName" placeholder="Enter user name" />
-      <button class="acbtn" @click="Register">Register</button>
-      <button class="acbtn" @click="RegisterWindow">Back to sign in</button>
-    </div>
-  </div>
   <!--------------------------------------------------------------------------------------------------------------------------------------->
   <RouterView></RouterView>
 </template>
