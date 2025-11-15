@@ -57,6 +57,12 @@ async function changeUser() {
       password: newUserPassword.value,
     }),
   })
+  //检查输入是否为空
+  if (newUserName.value == '' || newUserPassword.value == '') {
+    alert('用户名或密码不能为空')
+    return
+  }
+  
   const res = await fetch(req)
   const data = await res.json()
   alert(`${data.message}`)
@@ -104,11 +110,14 @@ async function createToDo() {
     }),
   })
 
+  //检查输入是否为空
+  if (todoTitle.value == '' || todoDescription.value == '' || todoEndTime.value == '') {
+    alert(`不可以输入空白内容`)
+    return
+  }
+
   try {
     const res = await fetch(req)
-    if (res.status == 400) {
-      alert(`Please enter compelete information`)
-    }
     const data = await res.json()
     console.log(data)
     // 刷新待办事项列表
@@ -120,6 +129,7 @@ async function createToDo() {
     console.log(error)
   }
 }
+
 //删除待办事项
 
 async function deleteToDoList(item) {
@@ -156,6 +166,12 @@ async function queryToDo() {
   })
 
   try {
+    // 检查ID是否为空
+    if (todoID.value == '') {
+      alert(`请输入ID`)
+      return
+    }
+
     const res = await fetch(req)
     const data = await res.json()
     // 更新查询结果
@@ -188,6 +204,12 @@ async function updateToDoList() {
       title: newTitle.value
     }),
   })
+  //检查输入是否为空
+  if (newDescription.value == '' || newEndTime.value == '' || newTitle.value == '') {
+    alert(`请输入完整信息`)
+    return
+  }
+
   const res = await fetch(req)
   console.log(res);
   const data = await res.json()
@@ -227,7 +249,7 @@ async function updateToDoList() {
     <div class="creatToDo">
       <h3>创建待办事项</h3>
       <input type="text" v-model="todoTitle" placeholder="输入标题" />
-      <input type="text" v-model="todoDescription" placeholder="输入ID" />
+      <input type="text" v-model="todoDescription" placeholder="输入描述" />
       <input type="datetime-local" v-model="todoEndTime" />
       <button @click="createToDo">添加待办事项</button>
     </div>

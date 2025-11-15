@@ -32,13 +32,20 @@ async function Register() {
     })
     console.log(accountName.value)
 
+    //检查输入是否为空
+    if (accountName.value === '' || accountPassword.value === '' || userName.value === '') {
+      alert(`不可以输入空白内容`)
+      return
+    }
+
     const res = await fetch(req)
     // 如果请求失败，抛出错误
-    if (!res.ok) {
-      throw new Error(`${res.status} ${res.statusText}`)
-    } else if (res.status === 500) {
-      alert(`Username already exists`)
+    if (res.status === 500) {
+      alert(`用户已存在`)
+    } else if (res.ok){
+      alert(`${res.message}`)
     }
+
     const data = await res.json()
     alert(data.message)
     console.log(res)
@@ -47,7 +54,6 @@ async function Register() {
     accountName.value = ``
     accountPassword.value = ``
   } catch (error) {
-    alert(`Username already exists`)
     console.log(error)
   }
 }
@@ -62,12 +68,21 @@ async function Signin() {
         password: accountPassword.value,
       }),
     })
-    const res = await fetch(req)
-    if (!res.ok) {
-      throw new Error(`${res.status} ${res.statusText}`)
+
+    //检查输入是否为空
+    if (accountName.value === '' || accountPassword.value === '') {
+      alert(`不可以输入空白内容`)
+      return
     }
+
+    const res = await fetch(req)
+    if (res.status === 401) {
+      alert(`用户名或密码错误`)
+    } else if (res.ok) {
+      alert(`欢迎`)
+    }
+
     const data = await res.json()
-    alert(data.message)
 
     //获取token&userName
     userName.value = data.user.name
@@ -80,10 +95,10 @@ async function Signin() {
 
     router.push('/Todos')
   } catch (error) {
-    alert(`Account or password is wrong`)
     console.log(error)
   }
 }
+
 function RegisterWindow() {
   isRegister.value = !isRegister.value
   isSignin.value = !isSignin.value
