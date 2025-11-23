@@ -1,15 +1,15 @@
 import { createRouter,createWebHistory } from "vue-router";
 
 import Todos from "../component/Todos.vue"
-import App from "./App.vue";
+import login from "../component/login.vue";
 
 const router = createRouter({
     history: createWebHistory(),
     routes:[
         {
             path: `/`,
-            name: "Home",
-            component: App
+            name: "login",
+            component: login
         },
         {
             path: `/Todos`,
